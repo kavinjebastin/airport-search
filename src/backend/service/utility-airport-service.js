@@ -32,7 +32,6 @@ export function getAllStates(_, response) {
 export function getAllCountries(_, response) {
   handleResponse(response, dao.getAllCountry);
 }
-
 /**
  * @param {import('express').Response} response
  * @param {Function} callback
