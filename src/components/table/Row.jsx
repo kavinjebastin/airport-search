@@ -1,15 +1,19 @@
 import React from "react";
 
-function Row({
-  airportCode,
-  airportName,
-  cityName,
-  stateName,
-  countryName,
-  AirportSize,
-}) {
+function Row(prop) {
+  const {
+    serialNo,
+    airportCode,
+    airportName,
+    cityName,
+    stateName,
+    countryName,
+    AirportSize,
+  } = prop;
+
   return (
     <tr>
+      <td>{serialNo}</td>
       <td>{airportCode}</td>
       <td>{airportName}</td>
       <td>{cityName}</td>

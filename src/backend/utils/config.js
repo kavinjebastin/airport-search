@@ -1,6 +1,8 @@
 "use strict";
 import mysql from "mysql2";
 export const table = {
+  tableName: "airport_with_rank",
+
   id: "airport_id",
   name: "airport_name",
   code: "airport_code",
@@ -13,12 +15,21 @@ export const table = {
   concatState: "concat_state",
   concatCountry: "concat_country",
 };
-export const connection = mysql.createConnection({
+//todo make this into a pool
+export const connection =  mysql.createConnection({
   user: "root",
   password: "admin@123",
   host: "localhost",
   database: "airport",
+
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0,
 });
 
 export const serverPort = 5000;
+
+export const serverURL = `http://localhost:${serverPort}/`;
 // process.hrtime

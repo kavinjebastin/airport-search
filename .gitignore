@@ -154,3 +154,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 src/backend/models/sql/airport.sql
+src/backend/utils/notes.txt

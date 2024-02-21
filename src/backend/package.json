@@ -5,20 +5,22 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node ./controller/utility-controller",
+    "start": "node ./controller/flight-controller",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.4.4",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "mysql2": "^3.9.1",
     "reflect-metadata": "^0.2.1",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
-    "@types/node": "^20.11.19"
+    "@types/mysql2": "github:types/mysql2",
+    "@types/node": "^20.11.19",
+    "dotenv": "^16.4.5"
   }
 }

@@ -34,13 +34,13 @@ export function getAllCountries(_, response) {
 }
 /**
  * @param {import('express').Response} response
- * @param {Function} callback
+ * @param {Function} promiseCallback
  * @returns {void}
  */
-function handleResponse(response, callback) {
-  callback()
+function handleResponse(response, promiseCallback) {
+  promiseCallback()
     .then((data) => {
-      response.status(StatusCodes.OK).write(data);
+      response.status(StatusCodes.OK).json(data);
     })
     .catch((error) => {
       response.status(StatusCodes.INTERNAL_SERVER_ERROR);
