@@ -1,12 +1,15 @@
-import Row from "./Row";
 import PropTypes from "prop-types";
+import Row from "./Row";
 function Table({ airports }) {
   return (
-    <div>
-      <table className="table table-success">
+    <div className="vw-100">
+      <table
+        className="table table-primary border-info rounded mx-auto"
+        style={{ width: "90%" }}
+      >
         <thead>
           <tr>
-            <th>Serial No </th>
+            <th>Serial No</th>
             <th>Airport Code</th>
             <th>Airport Name</th>
             <th>City Name</th>
@@ -16,10 +19,9 @@ function Table({ airports }) {
           </tr>
         </thead>
         <tbody className="table-hover">
-          {airports.map((airport, index, array) => {
-            airport.serialNo = index + 1;
-            return <Row key={airport?.code} props={airport} />;
-          })}
+          {airports.map((airport, index) => (
+            <Row key={airport.airportCode} index={index} airport={airport} />
+          ))}
         </tbody>
       </table>
     </div>
@@ -27,7 +29,7 @@ function Table({ airports }) {
 }
 
 Table.propTypes = {
-  airports: PropTypes.any,
+  airports: PropTypes.object,
 };
 
 export default Table;

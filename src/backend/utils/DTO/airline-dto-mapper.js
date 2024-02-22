@@ -17,6 +17,6 @@ const mapper = ({
   countryName: country_name,
   continent,
   currency,
-  airportSize: airport_types,
+  airportSize: airport_types.replace("_", " "),
 });
 export default (airports) => airports.map(mapper);

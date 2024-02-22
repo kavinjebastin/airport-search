@@ -1,7 +1,4 @@
 export default class AirportUtils {
-  /**
-   * @param {} connection
-   */
   constructor(connection, tableName) {
     this.connection = connection;
     this.tableName = tableName;
