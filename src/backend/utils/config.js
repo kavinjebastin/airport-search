@@ -1,7 +1,7 @@
 "use strict";
 import mysql from "mysql2";
 
-export const getLimit = 50;
+export const getLimit = 35;
 export const table = {
   tableName: "airport_with_rank",
 
@@ -17,7 +17,6 @@ export const table = {
   concatState: "concat_state",
   concatCountry: "concat_country",
 };
-//todo make this into a pool
 export const connection = mysql.createPool({
   user: "root",
   password: "admin@123",

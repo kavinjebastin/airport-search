@@ -1,26 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
-const Row = ({ index, airport }) => {
-  const {
-    airportName,
-    airportCode,
-    cityName,
-    stateName,
-    countryName,
-    airportSize,
-  } = airport;
-  return (
-    <tr>
-      <td>{index + 1}</td>
-      <td>{airportCode}</td>
-      <td>{airportName}</td>
-      <td>{cityName}</td>
-      <td>{stateName}</td>
-      <td>{countryName}</td>
-      <td>{airportSize.replace("_", " ")}</td>
-    </tr>
-  );
-};
+/**
+ * @param {Object} this
+ * @param {}
+ */
+const Row = ({
+  index,
+  airport: {
+    airportName, airportCode,
+    cityName, stateName,
+    countryName, airportSize,
+  },
+  search,
+}) => (
+  <tr className={search === airportCode.toLowerCase() ? "table-active" : ""}>
+    <td>{index + 1}</td>
+    <td className="danger-text">{airportCode}</td>
+    <td>{airportName}</td>
+    <td>{cityName}</td>
+    <td>{stateName}</td>
+    <td>{countryName}</td>
+    <td>{airportSize.replace("_", " ")}</td>
+  </tr>
+);
+
 Row.propTypes = {
   index: PropTypes.number.isRequired,
   airport: PropTypes.shape({
@@ -31,6 +34,7 @@ Row.propTypes = {
     countryName: PropTypes.string,
     airportSize: PropTypes.string,
   }),
+  search: PropTypes.string,
 };
 
 export default Row;

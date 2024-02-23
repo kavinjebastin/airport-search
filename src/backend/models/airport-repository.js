@@ -1,10 +1,14 @@
 "use strict";
 import "reflect-metadata";
-import { table as airport, connection } from "../utils/config.js";
+import { table as airport, connection, getLimit } from "../utils/config.js";
 import AirportUtils from "./airport-repository-helper.js";
 
 class AirportSearch extends AirportUtils {
-  #limit = 50;
+  #limit = getLimit;
+  #selectFrom = `
+    SELECT *
+    FROM ${this.tableName}
+  `;
   /**
    * select * will be replaced with this #columns field when everything is finalized and is set in place
    // todo , fill this with all the columns necessary in the resultset when querying
@@ -17,25 +21,41 @@ class AirportSearch extends AirportUtils {
     airport.country,
     // ! more will follow here
   ].join(",");
-  constructor(connection) {
-    super(connection, airport.tableName);
-    this.connection = connection;
+  getAirportsBasedOnLetter(search) {
+    switch (search.length) {
+      case 1:
+        return this.getAirportsBasedOnFirstLetter(search);
+      case 2:
+        return this.getAirportsBasedOnTwoLetters(search);
+      case 3:
+        return this.getAirportsBasedOnThreeLetters(search);
+      default:
+        return this.getAirports(search);
+    }
   }
+  getAirportsBasedOnFirstLetter(letter) {
+    const sql = `
+      ${this.#selectFrom}
+      WHERE ${airport.name} LIKE '${letter}%' AND 
+            ${airport.city} LIKE '${letter}%' AND
+            ${airport.state} LIKE 
+    `;
+    return this.executeQuery(sql);
+  }
+
   getByCountry(country) {
     const sql = `
-      SELECT *
-      FROM ${this.tableName}
+      ${this.#selectFrom}
       WHERE ${airport.concatCountry} like '${country}%'
       ORDER BY ${airport.country}
       LIMIT ${this.#limit}
     `;
-    return this.executeQuery(sql)
+    return this.executeQuery(sql);
   }
 
   getByState(state) {
     const sql = `
-      SELECT * 
-      FROM ${this.tableName}
+      ${this.#selectFrom}
       WHERE ${airport.concatState} LIKE '${state}%'
       ORDER BY ${airport.state}
       LIMIT ${this.#limit}
@@ -45,8 +65,7 @@ class AirportSearch extends AirportUtils {
 
   getByCity(city) {
     const sql = `
-      SELECT *
-      FROM ${this.tableName}
+      ${this.#selectFrom}
       WHERE ${airport.concatCity} LIKE '${city}%'
       ORDER BY ${airport.city}
       LIMIT ${this.#limit}
@@ -56,8 +75,7 @@ class AirportSearch extends AirportUtils {
 
   getByCode(code) {
     const sql = `
-        SELECT *
-        FROM ${this.tableName}
+        ${this.#selectFrom}
         WHERE ${airport.code} LIKE '${code}%'
         ORDER BY ${airport.code}
         LIMIT ${this.#limit}
@@ -66,8 +84,7 @@ class AirportSearch extends AirportUtils {
   }
   getByName(name) {
     const sql = `
-      SELECT * 
-      FROM ${this.tableName}
+      ${this.#selectFrom}
       WHERE ${airport.concatName} LIKE '${name}%'
       ORDER BY ${airport.name}
       LIMIT ${this.#limit}
@@ -76,4 +93,4 @@ class AirportSearch extends AirportUtils {
   }
 }
 
-export default new AirportSearch(connection);
+export default new AirportSearch(connection, airport.tableName);

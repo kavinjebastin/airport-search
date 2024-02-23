@@ -6,21 +6,24 @@ export const Form = () => {
   const handleChange = (event) => {
     event.preventDefault();
     const value = event?.target?.value;
-    setSearch((oldValue) => value);
+    setSearch(value);
   };
 
   useEffect(() => {
-    fetch(`http://localhost:5000/search/${search.toUpperCase()}`, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "http://localhost:5000/",
-      },
-    })
-      .then((data) => data.json())
-      .then(setAirports)
-      .catch(console.error);
+    if (search) {
+      fetch(`http://localhost:5000/search/${search}`, {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "http://localhost:5000/",
+        },
+      })
+        .then((data) => data.json())
+        .then(setAirports)
+        .catch(console.error);
+    }
+    return () => setAirports([]);
   }, [search]);
 
   return (
@@ -46,7 +49,7 @@ export const Form = () => {
           </div>
         </form>
       </div>
-      {airports.length !== 0 && <Table airports={airports} />}
+      {airports.length !== 0 && <Table airports={airports} search={search} />}
     </>
   );
 };

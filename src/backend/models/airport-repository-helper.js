@@ -1,5 +1,7 @@
+import { table as airport } from "../utils/config.js";
 export default class AirportUtils {
   constructor(connection, tableName) {
+    console.log(tableName);
     this.connection = connection;
     this.tableName = tableName;
   }
@@ -25,14 +27,14 @@ export default class AirportUtils {
 
   getAllCountry() {
     const sql = `
-      SELECT ${airport.country}
-      FROM ${this.tableName}`;
+      SELECT country_name
+      FROM airport_with_rank`;
     return this.executeQuery(sql);
   }
 
   executeQuery(sql) {
     return new Promise((resolve, reject) => {
-       this.connection.query(sql, (error, result) => {
+      this.connection.query(sql, (error, result) => {
         if (error) {
           reject(error);
         } else {

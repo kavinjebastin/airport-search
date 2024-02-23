@@ -26,28 +26,34 @@ function ordinarySearch(response, searchValue) {
       if (data.length >= getLimit) {
         return responseOK(response, data);
       }
-      const firstData = data[0];
+      const firstData = data?.[0];
       // todo look into this regarding regular city name and concat city name
-      const { city_name: city, state_name: state } = firstData;
+      const { city_name: cityName, state_name: stateName } = firstData;
       dao
-        .getByCity(city)
+        .getByCity(cityName)
         .then((cityData) => {
           if (data.length + cityData.length >= getLimit) {
-            return responseOK(response, data.concat(cityData));
+            return responseOK(response, [...data, ...cityData]);
           }
-          dao
-            .getByState(state)
-            .then((stateData) => {
-              if (
-                data.length + cityData.length + stateData.length >=
-                getLimit
-              ) {
-                return responseOK(response, data.concat(cityData, stateData));
-              }
-              // ! continue from here
-              dao.getByCountry();
-            })
-            .catch((error) => responseERROR(response, error));
+          if (stateName) {
+            dao
+              .getByState(stateName)
+              .then((stateData) => {
+                if (
+                  data.length + cityData.length + stateData.length >=
+                  getLimit
+                ) {
+                  return responseOK(response, [
+                    ...data,
+                    ...cityData,
+                    ...stateData,
+                  ]);
+                }
+                // ! continue from here
+                dao.getByCountry();
+              })
+              .catch((error) => responseERROR(response, error));
+          }
         })
         .catch((error) => responseERROR(response, error));
     })
@@ -67,14 +73,12 @@ function prioritySearch(response, searchValue) {
         .getByCity(city)
         .then((cityData) => {
           if (cityData.length + data.length >= getLimit) {
-            const concat = data.concat(cityData);
-            console.log(concat.length);
-            return responseOK(response, concat);
+            return responseOK(response, [...data, ...cityData]);
           }
           dao
             .getByState(state)
             .then((stateData) =>
-              responseOK(response, data.concat(cityData, stateData))
+              responseOK(response, [...data, ...cityData, ...stateData])
             )
             .catch((error) => responseERROR(response, error));
         })
