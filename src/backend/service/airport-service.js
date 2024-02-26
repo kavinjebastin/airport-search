@@ -2,7 +2,6 @@
 import dao from "../models/airport-repository.js";
 import { StatusCodes } from "http-status-codes";
 import airlineDtoMapper from "../utils/DTO/airline-dto-mapper.js";
-import { getLimit } from "../utils/config.js";
 /**
  * @param {import("express").Request} request
  * @param {import("express").Response} response

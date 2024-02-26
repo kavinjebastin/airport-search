@@ -1,7 +1,6 @@
 "use strict";
 import mysql from "mysql2";
-
-export const getLimit = 35;
+globalThis.getLimit = 35;
 export const table = {
   tableName: "airport_with_rank",
 
@@ -17,7 +16,7 @@ export const table = {
   concatState: "concat_state",
   concatCountry: "concat_country",
 };
-export const connection = mysql.createPool({
+export const connection = mysql.createConnection({
   user: "root",
   password: "admin@123",
   host: "localhost",
@@ -32,4 +31,6 @@ export const connection = mysql.createPool({
 
 export const serverPort = 5000;
 export const serverURL = `http://localhost:${serverPort}/`;
+
+import "./redis-utils.js";
 // process.hrtime

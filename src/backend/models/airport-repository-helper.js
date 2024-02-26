@@ -1,9 +1,20 @@
 import { table as airport } from "../utils/config.js";
+import mysql from 'mysql2'
 export default class AirportUtils {
-  constructor(connection, tableName) {
-    console.log(tableName);
-    this.connection = connection;
-    this.tableName = tableName;
+  constructor() {
+    this.tableName = "airport_with_rank";
+    this.connection = mysql.createConnection({
+      user: "root",
+      password: "admin@123",
+      host: "localhost",
+      database: "airport",
+
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0,
+      enableKeepAlive: true,
+      keepAliveInitialDelay: 0,
+    });
   }
   getAllAirports() {
     const sql = `

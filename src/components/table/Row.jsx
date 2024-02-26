@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 /**
  * @param {Object} this
@@ -7,9 +6,12 @@ import PropTypes from "prop-types";
 const Row = ({
   index,
   airport: {
-    airportName, airportCode,
-    cityName, stateName,
-    countryName, airportSize,
+    airportName,
+    airportCode,
+    cityName,
+    stateName,
+    countryName,
+    airportSize,
   },
   search,
 }) => (

@@ -1,10 +1,9 @@
 "use strict";
-import "reflect-metadata";
-import { table as airport, connection, getLimit } from "../utils/config.js";
+import { table as airport } from "../utils/config.js";
 import AirportUtils from "./airport-repository-helper.js";
 
 class AirportSearch extends AirportUtils {
-  #limit = getLimit;
+  #limit = globalThis.getLimit;
   #selectFrom = `
     SELECT *
     FROM ${this.tableName}
@@ -13,14 +12,14 @@ class AirportSearch extends AirportUtils {
    * select * will be replaced with this #columns field when everything is finalized and is set in place
    // todo , fill this with all the columns necessary in the resultset when querying
    *  */
-  #columns = [
-    airport.name,
-    airport.code,
-    airport.city,
-    airport.state,
-    airport.country,
-    // ! more will follow here
-  ].join(",");
+  // #columns = [
+  //   airport.name,
+  //   airport.code,
+  //   airport.city,
+  //   airport.state,
+  //   airport.country,
+  // ! more will follow here
+  // ].join(",");
   getAirportsBasedOnLetter(search) {
     switch (search.length) {
       case 1:
@@ -93,4 +92,4 @@ class AirportSearch extends AirportUtils {
   }
 }
 
-export default new AirportSearch(connection, airport.tableName);
+export default new AirportSearch();

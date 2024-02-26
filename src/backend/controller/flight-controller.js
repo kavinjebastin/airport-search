@@ -11,6 +11,7 @@ app.use(cors());
 app.use(express.json());
 // todo fix this route
 app.use("/util", utilityController);
+
 app.get("/search/", (_, res) => res.status(StatusCodes.BAD_REQUEST).json([]));
 app.get("/search/:search", handleSearch);
 
